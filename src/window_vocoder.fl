@@ -1,0 +1,208 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0107 
+header_name {.fl.h} 
+code_name {.fl.cpp}
+decl {\#include "window_vocoder.h"} {public
+} 
+
+decl {\#include "window_vocoder_band.h"} {public
+} 
+
+decl {\#include "window_vocoder_bands.h"} {public
+} 
+
+decl {\#include "window_vocoder_vumeter.h"} {public
+} 
+
+decl {class WindowVocoder;} {public
+} 
+
+decl {class WindowVocoderBand;} {public
+} 
+
+decl {class WindowVocoderBands;} {public
+} 
+
+decl {class WindowVocoderVumeter;} {public
+} 
+
+class WindowVocoderFltk {open
+} {
+  decl {WindowVocoder *cbWindowVocoder;} {}
+  decl {WindowVocoderBands *bands} {public
+  }
+  decl {WindowVocoderVumeter *vumeterFormant, *vumeterCarrier} {public
+  }
+  Function {WindowVocoderFltk(WindowVocoder* p)} {} {
+    code {// Init
+
+// set corresponding class to this widget class
+cbWindowVocoder=p;} {}
+  }
+  Function {makeWindow()} {open
+  } {
+    Fl_Window {} {open
+      xywh {572 210 700 204} type Double resizable visible
+    } {
+      Fl_Menu_Bar {} {
+        label Menu
+        xywh {0 0 700 20}
+      } {
+        Submenu {} {
+          label File open
+          xywh {0 0 70 21}
+        } {
+          MenuItem {} {
+            label {Open Configuration}
+            xywh {0 0 36 21} hide
+          }
+          MenuItem {} {
+            label {Save Configuration}
+            xywh {0 0 36 21} hide divider
+          }
+          MenuItem {} {
+            label Preferences
+            xywh {0 0 36 21} hide divider
+          }
+          MenuItem {} {
+            label Quit
+            callback {WindowVocoderEvent e;
+e.setExit();
+cbWindowVocoder->doCallback(&e);}
+            xywh {0 0 36 21}
+          }
+        }
+        Submenu {} {
+          label Help open
+          xywh {0 0 70 21}
+        } {
+          MenuItem {} {
+            label About
+            callback {makeWindowAbout()->show();}
+            xywh {0 0 36 21}
+          }
+        }
+      }
+      Fl_Group {} {
+        label Contents open
+        xywh {0 20 700 184} labeltype NO_LABEL
+      } {
+        Fl_Group {} {
+          label Toprow open
+          xywh {0 20 700 40} labeltype NO_LABEL
+        } {
+          Fl_Group {} {
+            label ButtonBarGroup
+            xywh {0 20 56 40} labeltype NO_LABEL
+          } {
+            Fl_Button {} {
+              label Exit
+              callback {WindowVocoderEvent e;
+e.setExit();
+cbWindowVocoder->doCallback(&e);}
+              image {../imgs/exit.xpm} xywh {0 20 45 40}
+            }
+          }
+          Fl_Group {} {open
+            image {../imgs/vocoder.xpm} xywh {455 20 245 40} align 0
+          } {
+            Fl_Group {} {
+              label {V0.00} open
+              xywh {650 45 45 15} labelsize 9 align 17
+              code0 {o->label("V" VERSION);}
+            } {}
+          }
+        }
+        Fl_Group {} {
+          label Vumeters open
+          xywh {0 64 60 140} labeltype NO_LABEL
+        } {
+          Fl_Group {} {
+            label {VUmeter formant} open
+            xywh {15 69 8 130} labeltype NO_LABEL
+            code0 {vumeterFormant=o;}
+            code1 {o->setDirection(false);}
+            code2 {o->setTilesize(12);}
+            class WindowVocoderVumeter
+          } {}
+          Fl_Group {} {
+            label {VUmeter carrier} open
+            xywh {45 69 8 130} labeltype NO_LABEL
+            code0 {vumeterCarrier=o;}
+            code1 {o->setDirection(false);}
+            code2 {o->setTilesize(12);}
+            class WindowVocoderVumeter
+          } {}
+          Fl_Group {} {open
+            image {../imgs/vumeter_formant.xpm} xywh {3 145 10 50} align 18
+          } {}
+          Fl_Group {} {open selected
+            image {../imgs/vumeter_carrier.xpm} xywh {33 145 10 50} align 18
+          } {}
+        }
+        Fl_Group {} {
+          label Bands open
+          xywh {60 64 640 140} labeltype NO_LABEL
+          code0 {bands=o;}
+          class WindowVocoderBands
+        } {}
+      }
+    }
+  }
+  Function {makeBand()} {} {
+    Fl_Window {} {open
+      xywh {749 707 40 140} type Double hide
+    } {
+      Fl_Group {} {
+        label Band open
+        xywh {0 0 40 140} box UP_BOX labeltype NO_LABEL
+        class WindowVocoderBand
+      } {
+        Fl_Slider {} {
+          label 150Hz
+          user_data o
+          callback {((WindowVocoderBand *)o->parent())->changed();}
+          xywh {10 13 20 75} labelsize 10 align 1
+        }
+        Fl_Dial {} {
+          user_data o
+          callback {((WindowVocoderBand *)o->parent())->changed();}
+          xywh {10 96 20 20} step 0.01 value 0.5
+        }
+        Fl_Button {} {
+          label R
+          user_data o
+          callback {WindowVocoderBand *b=(WindowVocoderBand *)o->parent();
+b->setPanning(0.0);
+b->setVolume(1.0);}
+          xywh {10 123 20 10}
+        }
+      }
+    }
+  }
+  Function {makeWindowAbout()} {} {
+    Fl_Window {} {
+      xywh {839 130 390 275} type Double align 17 hide resizable
+    } {
+      Fl_Text_Display {} {
+        xywh {30 50 330 165} textsize 12
+      }
+      Fl_Button {} {
+        label OK
+        user_data o
+        callback {Fl_Double_Window *w=(Fl_Double_Window *)o->parent();
+w->hide();
+delete w;}
+        xywh {160 230 80 25}
+      }
+      Fl_Group {} {open
+        image {../imgs/vocoder.xpm} xywh {0 0 390 40} align 16 resizable
+      } {}
+    }
+    code {// set text
+Fl_Text_Display *text=(Fl_Text_Display *)w->child(0);
+Fl_Text_Buffer *buffer=new Fl_Text_Buffer(1024);
+buffer->append("Vocoder V" VERSION "\\n© 2007 Achim Settelmeier\\n\\nIdea, code and design:\\n  Achim Settelmeier <vocoder@m1.sirlab.de>\\n\\n\\n\\nhttp://sirlab.de/linux/");
+text->buffer(buffer);} {}
+  }
+} 

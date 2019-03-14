@@ -1,0 +1,5 @@
+# ignore Mac OS files
+.DS_Store
+
+# ignore NetBeans project
+nbproject/

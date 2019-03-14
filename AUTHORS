@@ -1,0 +1,22 @@
+Authors and people who helped
+
+
+
+  idea, main code
+  ===============
+
+Achim Settelmeier <vocoder@m1.sirlab.de>
+
+
+
+  ported to LADSPA 
+  ================
+
+(available at http://linux.sirlab.de/)
+Josh Green <jgreen@users.NOSPAM-sourceforge.net>
+
+
+  contributions
+  =============
+
+Vincent Neuville - ported to jackd 0.116.1
