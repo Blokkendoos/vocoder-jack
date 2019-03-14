@@ -1,6 +1,6 @@
 /*
  * Vocoder
- * © 2007 Achim Settelmeier <vocoder@m1.sirlab.de>
+ * ï¿½ 2007 Achim Settelmeier <vocoder@m1.sirlab.de>
  *
  */
 

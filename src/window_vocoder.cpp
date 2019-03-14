@@ -1,10 +1,11 @@
 /*
  * Vocoder
- * © 2007 Achim Settelmeier <vocoder@m1.sirlab.de>
+ * ï¿½ 2007 Achim Settelmeier <vocoder@m1.sirlab.de>
  *
  */
 
 // Includes /*fold00*/
+#include <stdio.h>
 #include <iostream>
 #include "window_vocoder.h"
 #include "window_vocoder_band.h"
@@ -50,7 +51,9 @@ void WindowVocoder::run(){
 	window->show(mainArgc, mainArgv);
 	
 	// let FLTK do the dirty work for us
-	while(Fl::wait() && !exitFlag);
+	while(Fl::wait() && !exitFlag){
+		// nop
+	}
 }
 
 // setEventCallback /*fold00*/
